@@ -3,6 +3,8 @@ source /usr/local/bin/config.conf
 
 while true
 do
+  echo "[+] Uploading images..."
+
   rsync -avz --ignore-existing \
     "$LOCAL_IMAGE_DIR/" \
     $USER@$SERVER:$REMOTE_BACKUP_DIR/$(hostname)/
