@@ -1,21 +1,16 @@
 #!/bin/bash
 
-echo "==============================="
-echo "   Linux Backup Agent Setup"
-echo "==============================="
+echo "==== Linux Agent Installer ===="
 
 # طلب البورت
-read -p "Enter SSH Port to use (example 2222): " PORT
+read -p "Enter SSH Port: " PORT
 
-# تحقق من الإدخال
 if [[ -z "$PORT" ]]; then
-  echo "[!] Port cannot be empty!"
+  echo "Port required!"
   exit 1
 fi
 
-echo "[+] Using port: $PORT"
-
-# إنشاء config مؤقت
+# إنشاء config
 cat <<EOF > /usr/local/bin/config.conf
 SERVER="37.237.185.27"
 USER="ali"
@@ -25,9 +20,9 @@ LOCAL_IMAGE_DIR="\$HOME/Pictures"
 INTERVAL=60
 EOF
 
-# نسخ السكربتات
-cp agent.sh /usr/local/bin/agent.sh
-cp backup.sh /usr/local/bin/backup.sh
+# نسخ الملفات
+cp agent.sh /usr/local/bin/
+cp backup.sh /usr/local/bin/
 
 chmod +x /usr/local/bin/agent.sh
 chmod +x /usr/local/bin/backup.sh
@@ -36,16 +31,13 @@ chmod +x /usr/local/bin/backup.sh
 cp linux-agent.service /etc/systemd/system/
 cp linux-backup.service /etc/systemd/system/
 
-# إعادة تحميل
-systemctl daemon-reexec
+# تشغيل
 systemctl daemon-reload
-
-# تفعيل
 systemctl enable linux-agent
 systemctl enable linux-backup
 
 systemctl start linux-agent
 systemctl start linux-backup
 
-echo "[+] Installed successfully!"
-echo "[+] Your SSH Port is: $PORT"
+echo "[+] Installed!"
+echo "[+] SSH Port: $PORT"
