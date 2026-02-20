@@ -1,0 +1,11 @@
+[Unit]
+Description=Backup Images Service
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/backup.sh
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
